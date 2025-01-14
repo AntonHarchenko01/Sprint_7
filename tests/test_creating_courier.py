@@ -11,7 +11,8 @@ class TestCreatingCourier:
         payload = {'login': generate_random_string(8), 'password': generate_random_string(8)}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(Urls.CREATING_COURIER, json=payload, headers=headers)
-        assert response.status_code == 201 and response.json() == {'ok': True}
+        assert response.status_code == 201
+        assert response.json() == {'ok': True}
         id_courier = get_courier_id(payload)
         delete_courier(id_courier)
 
@@ -22,8 +23,9 @@ class TestCreatingCourier:
         headers = {'Content-Type': 'application/json'}
         requests.post(Urls.CREATING_COURIER, json=payload, headers=headers)
         response = requests.post(Urls.CREATING_COURIER, json=payload, headers=headers)
-        assert response.status_code == 409 and response.json() == {'code': 409, "message": "Этот логин уже используется. Попробуйте другой."}
-
+        assert response.status_code == 409
+        response_message = response.text
+        assert response_message == '{"code":409,"message":"Этот логин уже используется. Попробуйте другой."}'
 
     @allure.title('Тест проверки успешного создания курьера при всех заполненных полях')
     @allure.description('Тест проверяет успешное создание курьера при заполненных полях login, password, firstName, получение кода 201 и сообщения {"ok": True}')
@@ -31,7 +33,8 @@ class TestCreatingCourier:
         payload = {'login': generate_random_string(8), 'password': generate_random_string(8), 'firstName': generate_random_string(8)}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(Urls.CREATING_COURIER, json=payload, headers=headers)
-        assert response.status_code == 201 and response.json() == {'ok': True}
+        assert response.status_code == 201
+        assert response.json() == {'ok': True}
         id_courier = get_courier_id(payload)
         delete_courier(id_courier)
 
@@ -41,4 +44,6 @@ class TestCreatingCourier:
         payload = {'login': generate_random_string(8)}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(Urls.CREATING_COURIER, json=payload, headers=headers)
-        assert response.status_code == 400 and response.json() == {'code': 400, 'message': 'Недостаточно данных для создания учетной записи'}
+        assert response.status_code == 400
+        response_message = response.text
+        assert response_message == '{"code":400,"message":"Недостаточно данных для создания учетной записи"}'

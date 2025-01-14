@@ -32,7 +32,9 @@ class TestLoginCourier:
         login, password, first_name = register_new_courier_and_return_login_password()
         payload = {'login': login, 'password': '1'}
         response = requests.post(Urls.COURIER_LOGIN, data=payload)
-        assert response.status_code == 404 and response.json() == {'code': 404, 'message': 'Учетная запись не найдена'}
+        assert response.status_code == 404
+        response_message = response.text
+        assert response_message == '{"code":404,"message":"Учетная запись не найдена"}'
         payload = {'login': login, 'password': password, 'firstName': first_name}
         id_courier = get_courier_id(payload)
         delete_courier(id_courier)
@@ -43,7 +45,9 @@ class TestLoginCourier:
         payload = {'login': generate_random_string(8), 'password': ''}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(Urls.COURIER_LOGIN, json=payload, headers=headers)
-        assert response.status_code == 400 and response.json() == {'code': 400, "message":  "Недостаточно данных для входа"}
+        assert response.status_code == 400
+        response_message =  response.text
+        assert response_message == '{"code":400,"message":"Недостаточно данных для входа"}'
 
     @allure.title('Тест проверки авторизации незарегистрированного пользователя')
     @allure.description('Тест проверяет, что курьер не зарегистрированный в системе не может авторизоваться, получение кода 404 и сообщения "Учетная запись не найдена"')
@@ -51,5 +55,8 @@ class TestLoginCourier:
         payload = {'login': data.not_exist_login, 'password': data.not_exist_password}
         headers = {'Content-Type': 'application/json'}
         response = requests.post(Urls.COURIER_LOGIN, json=payload, headers=headers)
-        assert response.status_code == 404 and response.json() == {'code': 404, 'message': 'Учетная запись не найдена'}
+        assert response.status_code == 404
+        response_message = response.text
+        assert response_message == '{"code":404,"message":"Учетная запись не найдена"}'
+
 
