@@ -1,7 +1,7 @@
 import allure
 import requests
 from urls import Urls
-from conftest import generate_random_string, get_courier_id, delete_courier
+from helper import generate_random_string, get_courier_id, delete_courier
 
 
 class TestCreatingCourier:

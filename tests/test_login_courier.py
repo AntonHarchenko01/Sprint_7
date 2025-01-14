@@ -1,7 +1,7 @@
 import allure
 import requests
 import data
-from conftest import register_new_courier_and_return_login_password, delete_courier, get_courier_id, generate_random_string
+from helper import register_new_courier_and_return_login_password, delete_courier, get_courier_id, generate_random_string
 from urls import Urls
 
 
