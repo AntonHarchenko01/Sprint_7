@@ -12,7 +12,8 @@ class TestLoginCourier:
         login, password, first_name = register_new_courier_and_return_login_password()
         payload = {'login': login, 'password': password}
         response = requests.post(Urls.COURIER_LOGIN, data=payload)
-        assert response.status_code == 200 and 'id' in response.json()
+        assert response.status_code == 200
+        assert 'id' in response.json()
         id_courier = get_courier_id(payload)
         delete_courier(id_courier)
 
@@ -22,7 +23,8 @@ class TestLoginCourier:
         login, password, first_name = register_new_courier_and_return_login_password()
         payload = {'login': login, 'password': password, 'firstName': first_name}
         response = requests.post(Urls.COURIER_LOGIN, data = payload)
-        assert response.status_code == 200 and 'id' in response.json()
+        assert response.status_code == 200
+        assert 'id' in response.json()
         id_courier = get_courier_id(payload)
         delete_courier(id_courier)
 

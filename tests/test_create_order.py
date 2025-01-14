@@ -12,4 +12,5 @@ class TestCreateOrder:
     def test_create_order_different_color_field_value_order_create(self, data_order):
         payload = data_order
         response = requests.post(Urls.CREATE_ORDER, json=payload)
-        assert response.status_code == 201 and 'track' in response.json()
+        assert response.status_code == 201
+        assert 'track' in response.json()
